@@ -1,11 +1,16 @@
 package com.dev.fullstackdemo.domain;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@Repository
+@RepositoryRestResource
 public interface CarRepository extends CrudRepository<Car, Long> {
-    List<Car> findByBrand(String brand);
+    // find by brand
+    List<Car> findByBrand(@Param("brand") String brand);
+
+    // find by color
+    List<Car> findByColor(@Param("color") String color);
 }
