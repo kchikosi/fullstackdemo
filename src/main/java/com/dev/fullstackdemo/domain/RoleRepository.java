@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- * maintain use data
- */
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface RoleRepository extends CrudRepository<Role, Long> {
+    Optional<User> findByRoleName(String roleName);
 }
