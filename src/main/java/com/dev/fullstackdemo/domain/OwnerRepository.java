@@ -1,9 +1,7 @@
 package com.dev.fullstackdemo.domain;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
-
-@Repository
+@RepositoryRestResource
 public interface OwnerRepository extends CrudRepository<Owner, Long> {}
