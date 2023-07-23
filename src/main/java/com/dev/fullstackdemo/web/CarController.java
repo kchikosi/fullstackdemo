@@ -25,7 +25,7 @@ public class CarController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<List<Car>> all(){
+    public ResponseEntity<List<Car>> all() {
         return new ResponseEntity(this.carRepository.findAll(), null, HttpStatus.OK);
     }
 

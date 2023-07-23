@@ -30,24 +30,21 @@ public class FullstackdemoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Owner ownerOne = new Owner("Kotsanai", "Chikosi");
-        Owner ownerTwo = new Owner("Test", "User");
+        Owner ownerTwo = new Owner("Sam", "Douche");
         ownerRepository.saveAll(Arrays.asList(ownerOne, ownerTwo));
-        Car carA = new Car("Ford", "Mustang", "Red", "222-3321", 1999, 24000, ownerOne);
-        Car carB = new Car("Nissan", "Murano", "Black", "108-7821", 2016, 34000, ownerTwo);
-        Car carC = new Car("Nissan", "Ariya", "White", "221-4511", 2023, 54000, ownerTwo);
+        Car carA = new Car("Ford", "Mustang", "Red", "222-3321", 1999, 24000, ownerTwo);
+        Car carB = new Car("Nissan", "Murano", "Black", "108-7821", 2016, 34000, ownerOne);
+        Car carC = new Car("Nissan", "Ariya", "White", "221-4511", 2023, 54000, ownerOne);
         carRepository.saveAll(Arrays.asList(carA, carB, carC));
 
         //TODO: password encryption
         User userOne = new User("admin", "password", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
-        User userTwo = new User("test", "password",Arrays.asList("ROLE_USER"));
+        User userTwo = new User("test", "password", Arrays.asList("ROLE_USER"));
         userRepository.saveAll(Arrays.asList(userOne, userTwo));
-
 
 
         //fetch all cars
         LOGGER.info("Fetching data");
-        for (Car car : carRepository.findAll()) {
-            LOGGER.info("Car Brand: " + car.getBrand());
-        }
+        carRepository.findAll().forEach(car -> LOGGER.info("Vehicle -> " + car.getBrand() + ", " + car.getModel()));
     }
 }

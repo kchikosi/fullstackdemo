@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,4 +57,5 @@ public class Owner {
     public void setCars(List<Car> cars) {
         this.cars = cars;
     }
+
 }

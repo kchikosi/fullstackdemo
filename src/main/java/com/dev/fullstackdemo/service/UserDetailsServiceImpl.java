@@ -31,12 +31,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 
-            if (user.isPresent()) {
-                User currentUser = user.get();
-                userBuilder.username(currentUser.getUsername());
-                userBuilder.password(currentUser.getPassword());
-                return userBuilder.build();
-            }
+        if (user.isPresent()) {
+            User currentUser = user.get();
+            userBuilder.username(currentUser.getUsername());
+            userBuilder.password(currentUser.getPassword());
+            return userBuilder.build();
+        }
 
         return null;
     }
