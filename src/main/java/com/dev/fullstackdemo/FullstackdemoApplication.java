@@ -19,8 +19,6 @@ public class FullstackdemoApplication implements CommandLineRunner {
     private OwnerRepository ownerRepository;
     @Autowired
     private CarRepository carRepository;
-    //    @Autowired
-//    private UserRepository userRepository;
     @Autowired
     private UserServiceImpl userService;
 
@@ -41,8 +39,8 @@ public class FullstackdemoApplication implements CommandLineRunner {
         carRepository.saveAll(Arrays.asList(carA, carB, carC));
 
         //TODO: password encryption
-        CustomUser customUserOne = new CustomUser("admin", "password", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
-        CustomUser customUserTwo = new CustomUser("test", "password", Arrays.asList("ROLE_USER"));
+        CustomUser customUserOne = new CustomUser("admin", "pw", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
+        CustomUser customUserTwo = new CustomUser("test", "pw", Arrays.asList("ROLE_USER"));
         Arrays.asList(customUserOne, customUserTwo).forEach(customUser -> userService.saveUser(customUser));
 
 

@@ -27,14 +27,15 @@ public class SecurityConfiguration {
         httpSecurity.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
-                .authenticationProvider(authenticationprovider());
+                .authenticationProvider(authenticationProvider());
         return httpSecurity.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationprovider() {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userService());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
