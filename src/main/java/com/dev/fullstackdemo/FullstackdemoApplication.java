@@ -1,6 +1,7 @@
 package com.dev.fullstackdemo;
 
 import com.dev.fullstackdemo.domain.*;
+import com.dev.fullstackdemo.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ public class FullstackdemoApplication implements CommandLineRunner {
     private OwnerRepository ownerRepository;
     @Autowired
     private CarRepository carRepository;
+    //    @Autowired
+//    private UserRepository userRepository;
     @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
     public static void main(String[] args) {
         SpringApplication.run(FullstackdemoApplication.class, args);
@@ -38,9 +41,9 @@ public class FullstackdemoApplication implements CommandLineRunner {
         carRepository.saveAll(Arrays.asList(carA, carB, carC));
 
         //TODO: password encryption
-        User userOne = new User("admin", "password", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
-        User userTwo = new User("test", "password", Arrays.asList("ROLE_USER"));
-        userRepository.saveAll(Arrays.asList(userOne, userTwo));
+        CustomUser customUserOne = new CustomUser("admin", "password", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
+        CustomUser customUserTwo = new CustomUser("test", "password", Arrays.asList("ROLE_USER"));
+        Arrays.asList(customUserOne, customUserTwo).forEach(customUser -> userService.saveUser(customUser));
 
 
         //fetch all cars

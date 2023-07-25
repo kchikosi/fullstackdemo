@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @JsonIgnoreProperties
-public class User implements UserDetails {
+public class CustomUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -28,10 +28,11 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    public User() {
+    //TODO: use email as user
+    public CustomUser() {
     }
 
-    public User(String username, String password, List<String> roles) {
+    public CustomUser(String username, String password, List<String> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -57,6 +58,10 @@ public class User implements UserDetails {
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /**
      * Returns the username used to authenticate the user. Cannot return
      * <code>null</code>.
@@ -66,6 +71,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -112,5 +121,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,19 +1,37 @@
 package com.dev.fullstackdemo.service;
 
-import com.dev.fullstackdemo.domain.User;
+import com.dev.fullstackdemo.domain.CustomUser;
 import com.dev.fullstackdemo.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public class UserDetailsServiceImpl implements UserDetailsService {
+@Service
+public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
-    private final UserBuilder userBuilder = null;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
+     * persist user
+     *
+     * @param customUser
+     * @return generated user id
+     */
+    public Long saveUser(CustomUser customUser) {
+        String encodedPasswd = passwordEncoder.encode(customUser.getPassword());
+        customUser.setPassword(encodedPasswd);
+        customUser = userRepository.save(customUser);
+        return customUser.getId();
+    }
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -29,15 +47,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        if (user.isPresent()) {
-            User currentUser = user.get();
-            userBuilder.username(currentUser.getUsername());
-            userBuilder.password(currentUser.getPassword());
-            return userBuilder.build();
-        }
-
-        return null;
+        Optional<CustomUser> optionalUser = userRepository.findByUsername(username);
+        CustomUser user = optionalUser.get();
+        return new User(user.getUsername()
+                , user.getPassword()
+                , user.getAuthorities());
     }
+
+
 }
+
+
