@@ -9,7 +9,12 @@ import java.util.Optional;
  * maintain use data
  * exported 'false' prevents /users endpoint from being visible from localhost:8080/api
  */
-@RepositoryRestResource(exported = false)
-public interface UserRepository extends CrudRepository<CustomUser, Long> {
+//@RepositoryRestResource(exported = false)
+@RepositoryRestResource
+public interface CustomUserRepository extends CrudRepository<CustomUser, Long> {
+    Optional<CustomUser> findById(Long id);
+
     Optional<CustomUser> findByUsername(String username);
+
+    Optional<CustomUser> findByPassword(String password);
 }

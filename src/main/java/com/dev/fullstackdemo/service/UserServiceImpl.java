@@ -1,7 +1,7 @@
 package com.dev.fullstackdemo.service;
 
 import com.dev.fullstackdemo.domain.CustomUser;
-import com.dev.fullstackdemo.domain.UserRepository;
+import com.dev.fullstackdemo.domain.CustomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    private CustomUserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

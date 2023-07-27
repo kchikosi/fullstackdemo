@@ -11,7 +11,7 @@ import java.util.List;
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int ownerId;
+    private long id;
     private String firstName, lastName;
 
     @JsonIgnore
@@ -26,12 +26,12 @@ public class Owner {
         this.lastName = lastName;
     }
 
-    public int getOwnerId() {
-        return ownerId;
+    public long getId() {
+        return id;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
