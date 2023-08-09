@@ -3,16 +3,20 @@ package com.dev.fullstackdemo;
 import com.dev.fullstackdemo.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -23,26 +27,30 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-/*    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-                .authenticationProvider(authenticationProvider());
-        return httpSecurity.build();
-    }*/
-
+    // We are using this while we build the frontend, no security
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers("/api", "/v1/*").authenticated()
-                        .requestMatchers("/api").hasAuthority("ADMIN")
-                        .requestMatchers("/v1/users").hasAuthority("ADMIN")
-                        .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .authenticationProvider(authenticationProvider());
+        httpSecurity.authorizeHttpRequests(auth ->
+                auth.anyRequest().permitAll())
+                .cors(cors -> corsConfigurationSource())
+                .cors(AbstractHttpConfigurer::disable); //temporarily disable
         return httpSecurity.build();
     }
+
+/*    //We are keeping tis as our final bean
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests.requestMatchers("/api/**").hasRole("ADMIN")
+//                        .requestMatchers("/v1/**").hasRole("USER")
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .securityMatchers(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .authenticationProvider(authenticationProvider());
+        return http.build();
+    }*/
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -56,5 +64,20 @@ public class SecurityConfiguration {
     public UserDetailsService userService() {
         return new UserServiceImpl();
     }
+
     //TODO: create a custom JWT token based authentication filter to validate the JWT token
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080", "https://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
+        configuration.setExposedHeaders(Arrays.asList("X-Get-Header"));
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }

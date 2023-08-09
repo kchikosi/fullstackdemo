@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CustomUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
-//    @Autowired
+    //    @Autowired
     private CustomUser user;
     @Autowired
     private CustomUserController controller;
@@ -49,7 +49,7 @@ class CustomUserControllerTest {
 
     @Test
     void registerUserCredential() throws Exception {
-        MvcResult result = mockMvc.perform(post("/v1/users")
+        MvcResult result = mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(user)))
                 .andExpect(status().isCreated())
@@ -60,7 +60,7 @@ class CustomUserControllerTest {
 
     @Test
     void getAllUsers() throws Exception {
-        MvcResult result = mockMvc.perform(get("/v1/users")
+        MvcResult result = mockMvc.perform(get("/users")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
