@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:3000"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 public interface CarRepository extends CrudRepository<Car, Long> {
     Optional<List<Car>> findById(@Param("id") int id);
 
