@@ -32,12 +32,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth ->
                 auth.anyRequest().permitAll())
-                .cors(cors -> corsConfigurationSource())
-                .cors(AbstractHttpConfigurer::disable); //temporarily disable
+                .cors(cors -> corsConfigurationSource());
         return httpSecurity.build();
     }
 
-/*    //We are keeping tis as our final bean
+/*    //We are keeping this as our final bean
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
@@ -69,12 +68,14 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080", "https://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE"));
+//        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
-        configuration.setExposedHeaders(Arrays.asList("X-Get-Header"));
-        configuration.setMaxAge(3600L);
+        configuration.applyPermitDefaultValues();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
+//        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin:*", "Access-Control-Allow-Credentials:*", "X-Get-Header"));
+//        configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
