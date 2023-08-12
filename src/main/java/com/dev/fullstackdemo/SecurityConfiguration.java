@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,12 +26,19 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    // We are using this while we build the frontend, no security
+    // We are using this while we build the frontend, with minimal security
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(auth ->
-                auth.anyRequest().permitAll())
-                .cors(cors -> corsConfigurationSource());
+        httpSecurity.csrf(csrfConfig -> {
+            try {
+                csrfConfig.disable()
+                        .authorizeHttpRequests(authRegistry -> authRegistry.requestMatchers("/api/**"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        })
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .cors(corsConfig -> corsConfigurationSource());
         return httpSecurity.build();
     }
 
@@ -68,14 +74,10 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.applyPermitDefaultValues();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
-//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
-//        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin:*", "Access-Control-Allow-Credentials:*", "X-Get-Header"));
-//        configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
