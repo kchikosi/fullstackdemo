@@ -7,8 +7,8 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String brand, model, color, registerNumber;
-    private int modelYear, price;
+    private String brand, model, color, registration;
+    private int modelyear, price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -17,12 +17,12 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, String color, String registerNumber, int modelYear, int price, Owner owner) {
+    public Car(String brand, String model, String color, String registration, int modelYear, int price, Owner owner) {
         this.brand = brand;
         this.model = model;
         this.color = color;
-        this.registerNumber = registerNumber;
-        this.modelYear = modelYear;
+        this.registration = registration;
+        this.modelyear = modelYear;
         this.price = price;
         this.owner = owner;
     }
@@ -51,20 +51,20 @@ public class Car {
         this.color = color;
     }
 
-    public String getRegisterNumber() {
-        return registerNumber;
+    public String getRegistration() {
+        return registration;
     }
 
-    public void setRegisterNumber(String registerNumber) {
-        this.registerNumber = registerNumber;
+    public void setRegistration(String registration) {
+        this.registration = registration;
     }
 
-    public int getModelYear() {
-        return modelYear;
+    public int getModelyear() {
+        return modelyear;
     }
 
-    public void setModelYear(int modelYear) {
-        this.modelYear = modelYear;
+    public void setModelyear(int modelyear) {
+        this.modelyear = modelyear;
     }
 
     public int getPrice() {
