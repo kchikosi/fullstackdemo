@@ -20,17 +20,25 @@ public class CustomUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
+    private String firstname;
+    @Column(nullable = false)
+    private String lastname;
+    @Column(nullable = false, unique=true)
     private String username;
     @Column(nullable = false)
     private String password;
+
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
     public CustomUser() {
     }
 
-    public CustomUser(String username, String password, List<String> roles) {
+    public CustomUser(String firstname, String lastname, String username, String password, List<String> roles) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -71,6 +79,9 @@ public class CustomUser implements UserDetails {
         return this.username;
     }
 
+    /**
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }

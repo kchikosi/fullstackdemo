@@ -1,4 +1,4 @@
-package com.dev.fullstackdemo;
+package com.dev.fullstackdemo.config;
 
 import com.dev.fullstackdemo.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -26,37 +26,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    // We are using this while we build the frontend, with minimal security
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(csrfConfig -> {
-            try {
-                csrfConfig.disable()
-                        .authorizeHttpRequests(authRegistry -> authRegistry.requestMatchers("/api/**"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        })
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .cors(corsConfig -> corsConfigurationSource());
-        return httpSecurity.build();
-    }
-
-/*    //We are keeping this as our final bean
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorizeHttpRequests) ->
-                authorizeHttpRequests.requestMatchers("/api/**").hasRole("ADMIN")
-//                        .requestMatchers("/v1/**").hasRole("USER")
-                        .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .securityMatchers(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-                .authenticationProvider(authenticationProvider());
-        return http.build();
-    }*/
-
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -65,12 +34,21 @@ public class SecurityConfiguration {
         return daoAuthenticationProvider;
     }
 
+
     @Bean
     public UserDetailsService userService() {
         return new UserServiceImpl();
     }
 
     //TODO: create a custom JWT token based authentication filter to validate the JWT token
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        //TODO: complete this configuration, from example below
+        //https://medium.com/@truongbui95/jwt-authentication-and-authorization-with-spring-boot-3-and-spring-security-6-2f90f9337421
+        //https://github.com/buingoctruong/springboot3-springsecurity6-jwt.git
+        return httpSecurity.build();
+    }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

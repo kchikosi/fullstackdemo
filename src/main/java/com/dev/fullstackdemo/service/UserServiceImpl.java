@@ -47,14 +47,19 @@ public class UserServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<CustomUser> optionalUser = userRepository.findByUsername(username);
-        CustomUser user = optionalUser.get();
-        return new User(user.getUsername()
-                , user.getPassword()
-                , user.getAuthorities());
+        User.UserBuilder builder;
+        Optional<CustomUser> customUser = userRepository.findByUsername(username);
+        if (customUser.isPresent()) {
+            CustomUser currentUser = customUser.get();
+            builder = User.withUsername(currentUser.getUsername());
+            builder.password(currentUser.getPassword());
+            //TODO: roles
+            // builder.roles(..);
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return builder.build();
     }
-
-
 }
 
 

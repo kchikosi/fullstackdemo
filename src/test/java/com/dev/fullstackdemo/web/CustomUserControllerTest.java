@@ -41,7 +41,7 @@ class CustomUserControllerTest {
     @BeforeEach
     void setUp() {
 
-        user = new CustomUser("John", "pw", Arrays.asList("Admin"));
+        user = new CustomUser("Dee", "Money", "test123@abc.com", "pw", Arrays.asList("Admin"));
         mockMvc = MockMvcBuilders
                 .standaloneSetup(CustomUserControllerTest.class)
                 .build();
