@@ -1,6 +1,6 @@
 package com.dev.fullstackdemo.web;
 
-import com.dev.fullstackdemo.domain.CustomUser;
+import com.dev.fullstackdemo.domain.CustomUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,11 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomUserControllerTest {
+class CustomUserDetailsControllerTest {
     @Autowired
     private MockMvc mockMvc;
     //    @Autowired
-    private CustomUser user;
+    private CustomUserDetails user;
     @Autowired
     private CustomUserController controller;
 
@@ -41,9 +41,9 @@ class CustomUserControllerTest {
     @BeforeEach
     void setUp() {
 
-        user = new CustomUser("Dee", "Money", "test123@abc.com", "pw", Arrays.asList("Admin"));
+        user = new CustomUserDetails("Dee", "Money", "test123@abc.com", "pw","test123@abc.com", Arrays.asList("Admin"));
         mockMvc = MockMvcBuilders
-                .standaloneSetup(CustomUserControllerTest.class)
+                .standaloneSetup(CustomUserDetailsControllerTest.class)
                 .build();
     }
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @JsonIgnoreProperties
-public class CustomUser implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -28,19 +28,22 @@ public class CustomUser implements UserDetails {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false, unique=true)
+    private String email;
 
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
-    public CustomUser() {
+    public CustomUserDetails() {
     }
 
-    public CustomUser(String firstname, String lastname, String username, String password, List<String> roles) {
+    public CustomUserDetails(String firstname, String lastname, String username, String password, String email, List<String> roles) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.password = password;
+        this.email = email;
         this.roles = roles;
     }
 

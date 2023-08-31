@@ -1,4 +1,4 @@
-package com.dev.fullstackdemo.domain;
+package com.dev.fullstackdemo.domain.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInRequest {
+public class SignUpRequest {
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
+    private String email;
 }

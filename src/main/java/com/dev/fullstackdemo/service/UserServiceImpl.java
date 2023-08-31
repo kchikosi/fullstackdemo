@@ -1,7 +1,7 @@
 package com.dev.fullstackdemo.service;
 
-import com.dev.fullstackdemo.domain.CustomUser;
-import com.dev.fullstackdemo.domain.CustomUserRepository;
+import com.dev.fullstackdemo.domain.CustomUserDetails;
+import com.dev.fullstackdemo.domain.CustomUserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserDetailsService {
     @Autowired
-    private CustomUserRepository userRepository;
+    private CustomUserDetailsRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -23,14 +23,14 @@ public class UserServiceImpl implements UserDetailsService {
     /**
      * persist user
      *
-     * @param customUser
+     * @param customUserDetails
      * @return generated user id
      */
-    public Long saveUser(CustomUser customUser) {
-        String encodedPasswd = passwordEncoder.encode(customUser.getPassword());
-        customUser.setPassword(encodedPasswd);
-        customUser = userRepository.save(customUser);
-        return customUser.getId();
+    public Long saveUser(CustomUserDetails customUserDetails) {
+        String encodedPasswd = passwordEncoder.encode(customUserDetails.getPassword());
+        customUserDetails.setPassword(encodedPasswd);
+        customUserDetails = userRepository.save(customUserDetails);
+        return customUserDetails.getId();
     }
 
     /**
@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User.UserBuilder builder;
-        Optional<CustomUser> customUser = userRepository.findByUsername(username);
+        Optional<CustomUserDetails> customUser = userRepository.findByUsername(username);
         if (customUser.isPresent()) {
-            CustomUser currentUser = customUser.get();
+            CustomUserDetails currentUser = customUser.get();
             builder = User.withUsername(currentUser.getUsername());
             builder.password(currentUser.getPassword());
             //TODO: roles

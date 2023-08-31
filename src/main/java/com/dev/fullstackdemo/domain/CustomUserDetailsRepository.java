@@ -12,10 +12,10 @@ import java.util.Optional;
  */
 @RepositoryRestResource
 @CrossOrigin(origins = {"http://localhost:3000"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
-public interface CustomUserRepository extends CrudRepository<CustomUser, Long> {
-    Optional<CustomUser> findById(Long id);
+public interface CustomUserDetailsRepository extends CrudRepository<CustomUserDetails, Long> {
+    Optional<CustomUserDetails> findById(Long id);
 
-    Optional<CustomUser> findByUsername(String username);
+    Optional<CustomUserDetails> findByUsername(String username);
 
-    Optional<CustomUser> findByPassword(String password);
+    Optional<CustomUserDetails> findByPassword(String password);
 }
