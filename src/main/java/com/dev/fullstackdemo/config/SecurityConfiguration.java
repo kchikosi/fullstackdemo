@@ -45,7 +45,6 @@ public class SecurityConfiguration {
         return new UserServiceImpl();
     }
 
-    //TODO: create a custom JWT token based authentication filter to validate the JWT token
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         //TODO: complete this configuration, from example below

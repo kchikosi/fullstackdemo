@@ -20,6 +20,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtServiceImpl {
 
+    public static final int EXPIRATION_TIME_IN_MILLISECONDS = 1000 * 60 * 24;
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
@@ -27,14 +28,13 @@ public class JwtServiceImpl {
         return extractClaim(token, Claims::getSubject);
     }
 
-
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> extraClaims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_IN_MILLISECONDS))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -60,6 +60,4 @@ public class JwtServiceImpl {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
-
 }
