@@ -7,7 +7,6 @@ import com.dev.fullstackdemo.domain.response.JwtAuthenticationResponse;
 import com.dev.fullstackdemo.service.AuthenticationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  * login controller
  */
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthenticationController {
+    public static final String BEARER = "Bearer ";
     @Autowired
     private AuthenticationServiceImpl authenticationService;
 
@@ -27,16 +27,16 @@ public class AuthenticationController {
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
         JwtAuthenticationResponse response = authenticationService.signup(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, response.getToken())
+                .header(HttpHeaders.AUTHORIZATION, BEARER + response.getToken())
                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
-                .build();.
+                .build();
     }
 
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest request) {
         JwtAuthenticationResponse response = authenticationService.signin(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, response.getToken())
+                .header(HttpHeaders.AUTHORIZATION, BEARER + response.getToken())
                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
                 .build();
     }
