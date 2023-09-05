@@ -3,8 +3,10 @@ package com.dev.fullstackdemo.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,8 @@ import java.util.function.Function;
 public class JwtUtilServiceImpl {
 
     public static final int EXPIRATION_TIME_IN_MILLISECONDS = 1000 * 60 * 24;
-//    @Value("${token.signing.key}")
-//    private String jwtSigningKey;
-
-    static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${token.signing.key}")
+    private String jwtSigningKey;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -43,14 +43,9 @@ public class JwtUtilServiceImpl {
         return claimsResolvers.apply(claims);
     }
 
-/*    private Key getSignInKey() {
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
-    }*/
-
-    private Key getSignInKey() {
-//        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        return key;
     }
 
     private boolean isTokenExpired(String token) {
