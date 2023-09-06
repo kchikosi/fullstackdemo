@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
-    public static final String BEARER = "Bearer ";
+    public static final String BEARER_PREFIX = "Bearer ";
     @Autowired
     private AuthenticationServiceImpl authenticationService;
 
@@ -27,7 +27,7 @@ public class AuthenticationController {
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
         JwtAuthenticationResponse response = authenticationService.signup(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + response.getToken())
+                .header(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + response.getToken())
                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
                 .build();
     }
@@ -36,7 +36,7 @@ public class AuthenticationController {
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest request) {
         JwtAuthenticationResponse response = authenticationService.signin(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, BEARER + response.getToken())
+                .header(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + response.getToken())
                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
                 .build();
     }

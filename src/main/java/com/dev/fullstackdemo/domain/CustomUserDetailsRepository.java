@@ -17,5 +17,4 @@ public interface CustomUserDetailsRepository extends CrudRepository<CustomUserDe
 
     Optional<CustomUserDetails> findByUsername(String username);
 
-    Optional<CustomUserDetails> findByPassword(String password);
 }

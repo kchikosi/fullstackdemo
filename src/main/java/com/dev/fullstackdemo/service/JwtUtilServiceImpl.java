@@ -21,6 +21,7 @@ import java.util.function.Function;
 public class JwtUtilServiceImpl {
 
     public static final int EXPIRATION_TIME_IN_MILLISECONDS = 1000 * 60 * 24;
+    private static final String BEARER_PREFIX = "Bearer ";
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
@@ -39,7 +40,7 @@ public class JwtUtilServiceImpl {
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-        final Claims claims = Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+        final Claims claims = Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token.replace(BEARER_PREFIX, "")).getBody();
         return claimsResolvers.apply(claims);
     }
 
