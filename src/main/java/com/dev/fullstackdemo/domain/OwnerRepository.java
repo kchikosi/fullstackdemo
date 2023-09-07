@@ -13,7 +13,7 @@ public interface OwnerRepository extends CrudRepository<Owner, Long> {
 
     Optional<Owner> findById(@Param("id") Long id);
 
-    Optional<Owner> findByFirstName(@Param("firstName") String firstName);
+    Optional<Owner> findByFirstName(String firstname);
 
-    Optional<Owner> findByLastName(@Param("lastName") String lastName);
+    Optional<Owner> findByLastName(String lastname);
 }

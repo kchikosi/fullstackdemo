@@ -61,6 +61,15 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    /* // TESTING ONLY !!!! We are using this while we build the frontend, and tests no security
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(auth ->
+                auth.anyRequest().permitAll())
+                .cors(cors -> corsConfigurationSource());
+        return httpSecurity.build();
+    }*/
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
