@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl {
     private UserServiceImpl userService;
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        CustomUserDetails user = new CustomUserDetails(request.getFirstname(), request.getLastname(), request.getUsername(), request.getPassword(), request.getEmail(), Arrays.asList("ROLE_USER"));
+        CustomUserDetails user = new CustomUserDetails(request.getFirstname(), request.getLastname(), request.getEmail(), request.getPassword(), request.getEmail(), Arrays.asList("ROLE_USER"));
         userService.saveUser(user);
         String jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
