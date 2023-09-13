@@ -38,8 +38,8 @@ public class FullstackdemoApplication implements CommandLineRunner {
         Car carC = new Car("Nissan", "Ariya", "White", "221-4511", 2023, 54000, ownerOne);
         carRepository.saveAll(Arrays.asList(carA, carB, carC));
 
-        CustomUserDetails customUserDetailsOne = new CustomUserDetails("admin", "user", "test123@abcxyz.com", "pw","test123@abcxyz.com", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
-        CustomUserDetails customUserDetailsTwo = new CustomUserDetails("test", "user", "test456@abcdef.com", "pw","test123@mnjjjrd.com", Arrays.asList("ROLE_USER"));
+        CustomUserDetails customUserDetailsOne = new CustomUserDetails("admin", "user", "test123@abcxyz.com", "pw","test123@abcxyz.com", Arrays.asList("ADMIN", "USER"));
+        CustomUserDetails customUserDetailsTwo = new CustomUserDetails("test", "user", "test456@abcdef.com", "pw","test123@mnjjjrd.com", Arrays.asList("USER"));
         Arrays.asList(customUserDetailsOne, customUserDetailsTwo).forEach(customUser -> userService.saveUser(customUser));
 
 

@@ -53,8 +53,7 @@ public class UserServiceImpl implements UserDetailsService {
             CustomUserDetails currentUser = customUser.get();
             builder = User.withUsername(currentUser.getUsername());
             builder.password(currentUser.getPassword());
-            //TODO: roles
-            // builder.roles(..);
+            builder.authorities(currentUser.getAuthorities());
         } else {
             throw new UsernameNotFoundException("User not found");
         }
